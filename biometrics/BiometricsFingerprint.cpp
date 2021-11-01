@@ -24,6 +24,10 @@
 #define PARAM_NIT_630_FOD 1
 #define PARAM_NIT_NONE 0
 
+#define DISPPARAM_PATH "/sys/devices/platform/soc/5e00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/disp_param"
+#define DISPPARAM_HBM_FOD_ON "0x1D20000"
+#define DISPPARAM_HBM_FOD_OFF "0x20F0000"
+
 #define FOD_STATUS_PATH "/sys/class/touch/tp_dev/fod_status"
 #define FOD_STATUS_ON 1
 #define FOD_STATUS_OFF 0
@@ -91,6 +95,7 @@ Return<bool> BiometricsFingerprint::isUdfps(uint32_t) {
 }
 
 Return<void> BiometricsFingerprint::onFingerDown(uint32_t, uint32_t, float, float) {
+    set(DISPPARAM_PATH, DISPPARAM_HBM_FOD_ON);
     set(FOD_STATUS_PATH, FOD_STATUS_ON);
     xiaomiFingerprintService->extCmd(COMMAND_NIT, PARAM_NIT_630_FOD);
     return Void();
@@ -99,6 +104,7 @@ Return<void> BiometricsFingerprint::onFingerDown(uint32_t, uint32_t, float, floa
 Return<void> BiometricsFingerprint::onFingerUp() {
     xiaomiFingerprintService->extCmd(COMMAND_NIT, PARAM_NIT_NONE);
     set(FOD_STATUS_PATH, FOD_STATUS_OFF);
+    set(DISPPARAM_PATH, DISPPARAM_HBM_FOD_OFF);
     return Void();
 }
 
