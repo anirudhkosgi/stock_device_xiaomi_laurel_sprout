@@ -22,6 +22,8 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_p.mk)
 # Inherit some common PixelExperience stuff
 $(call inherit-product, vendor/aosp/config/common_full_phone.mk)
 
+PRODUCT_BROKEN_VERIFY_USES_LIBRARIES := true
+
 # Device identifier. This must come after all inclusions.
 PRODUCT_NAME := aosp_laurel_sprout
 PRODUCT_DEVICE := laurel_sprout
